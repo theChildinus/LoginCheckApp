@@ -16,10 +16,6 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 public class SignWithEC {
-    private static final String opensslPath = "C:\\Program Files\\Git\\usr\\bin\\openssl";
-    private static final String privateKeyPath = "./pairs/zhao.pem";
-    private static final String certPath = "./pairs/zhao.crt";
-    private static final String content = "22222211111";
 
     // 获取私钥 需要保证私钥格式为 PKCS8 格式, 即以BEGIN PRIVATE KEY开头, 而非 BEGIN EC PRIVATE KEY, 可用openssl转换
     // openssl pkcs8 -topk8 -nocrypt -in a.pem
@@ -70,7 +66,10 @@ public class SignWithEC {
     }
 
     public static void main(String[] args) throws Exception {
-        PrivateKey privateKey = getPrivateKey(privateKeyPath, opensslPath);
+        String certPath = "./pairs/zhao.crt";
+        String privatePath = "./pairs/zhao.pem";
+        String content = "111111";
+        PrivateKey privateKey = getPrivateKey(privatePath, Common.opensslPath);
         PublicKey publicKey = getPublicKeyFromCert(certPath);
         byte[] s = sign(privateKey, content);
         System.out.println("签名："+ HexBin.encode(s));

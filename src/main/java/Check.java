@@ -4,14 +4,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 
 public class Check {
-    // 开发环境url
-    private static final String devUrlPrefix = "http://localhost:9090/";
-    // 正式环境url
-    private static final String proUrlPrefix = "https://10.108.165.181:4433/api/";
-
     // 每次登录后randNum值均不一样
     public static String Check(String username, String randNum, String sub, String obj, String act) throws Exception{
-        String url = proUrlPrefix;
+        String url = Common.proUrlPrefix;
         String resp;
         JSONObject jsonWrite = new JSONObject();
         System.out.println("====== 策略验证过程 ======");
@@ -29,16 +24,16 @@ public class Check {
         jsonWrite.put("policyact", act);
         System.out.println("CHECK: " + jsonWrite.toJSONString());
         if (url.contains("https")) {
-            resp = HttpsPost.doPost(proUrlPrefix + "policy/check", jsonWrite.toJSONString());
+            resp = HttpsPost.doPost(Common.proUrlPrefix + "policy/check", jsonWrite.toJSONString());
         } else {
-            resp = HttpPost.doPost(devUrlPrefix + "policy/check", jsonWrite.toJSONString());
+            resp = HttpPost.doPost(Common.devUrlPrefix + "policy/check", jsonWrite.toJSONString());
         }
         System.out.println("RESP: " + resp);
         return resp;
     }
 
     public static void main(String[] args) throws Exception{
-        String randNum = "8121576815539813105";
+        String randNum = "2338498362660772719";
         Check("zhao", randNum,"zhao", "data4", "exec");
     }
 }
