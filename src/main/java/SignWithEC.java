@@ -65,6 +65,14 @@ public class SignWithEC {
         return bool;
     }
 
+    // 从证书中获取有效日期
+    public static String getCertValidity(String certPath) throws Exception {
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+        X509Certificate cert = (X509Certificate)cf.generateCertificate(new FileInputStream(certPath));
+        String validity = cert.getNotBefore().toString() + " 到 " + cert.getNotAfter().toString();
+        return validity;
+    }
+
     public static void main(String[] args) throws Exception {
         String certPath = "./pairs/zhao.crt";
         String privatePath = "./pairs/zhao.pem";
@@ -75,5 +83,6 @@ public class SignWithEC {
         System.out.println("签名："+ HexBin.encode(s));
         boolean bool = verify(publicKey, s, content);
         System.out.println("验证："+ bool);
+        System.out.println(getCertValidity(certPath));
     }
 }
