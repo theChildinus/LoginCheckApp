@@ -14,7 +14,7 @@ public class Login {
         System.out.println("====== 登录过程 ======");
         JSONObject jsonWrite = new JSONObject();
         //Inserting key-value pairs into the json object
-        jsonWrite.put("username", username);
+        jsonWrite.put("name", username);
         System.out.println("STEP 1: " + jsonWrite.toJSONString());
         if (url.contains("https")) {
             resp1 = HttpsPost.doPost(Common.proUrlPrefix + "user/login", jsonWrite.toJSONString());
@@ -31,8 +31,9 @@ public class Login {
         byte[] s = SignWithEC.sign(privateKey, String.valueOf(code));
         System.out.println("签名："+ Base64.encode(s));
 
-        jsonWrite.put("userrand", code);
-        jsonWrite.put("usersign", Base64.encode(s));
+        jsonWrite.put("rand", code);
+        jsonWrite.put("sign", Base64.encode(s));
+        jsonWrite.put("type", "user");
         System.out.println("STEP 2: " + jsonWrite.toJSONString());
         if (url.contains("https")) {
             resp2 = HttpsPost.doPost(Common.proUrlPrefix + "user/login", jsonWrite.toJSONString());
@@ -44,6 +45,7 @@ public class Login {
     }
 
     public static void main(String[] args) throws Exception{
-        Login("zhao", "./pairs/zhao.pem");
+        String username = "zhao";
+        Login(username, "./pairs/" + username + ".pem");
     }
 }

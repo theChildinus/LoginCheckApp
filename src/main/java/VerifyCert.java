@@ -11,8 +11,9 @@ public class VerifyCert {
         FileInputStream fis = new FileInputStream(certPath);
         String cert = Common.getFileContent(fis, "UTF-8");
         //Inserting key-value pairs into the json object
-        jsonWrite.put("username", username);
+        jsonWrite.put("name", username);
         jsonWrite.put("certcontent", Base64.encode(cert.getBytes()));
+        jsonWrite.put("type", "user");
         System.out.println("CHECK: " + jsonWrite.toJSONString());
         if (url.contains("https")) {
             resp = HttpsPost.doPost(Common.proUrlPrefix + "user/verifyCert", jsonWrite.toJSONString());
@@ -24,7 +25,7 @@ public class VerifyCert {
     }
 
     public static void main(String[] args) throws Exception{
-        String username = "kong";
+        String username = "zhao";
         VerifyCert(username, "./pairs/" + username + ".crt");
     }
 }
