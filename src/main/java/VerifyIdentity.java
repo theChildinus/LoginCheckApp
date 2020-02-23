@@ -3,23 +3,25 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.security.PrivateKey;
 
-public class Login {
+public class VerifyIdentity {
 
-    public static String Login(String username, String privateKeyPath) throws Exception {
+    public static String VerifyIdentity(String username, String privateKeyPath) throws Exception {
         String url = Common.proUrlPrefix;
         String resp1;
         String resp2;
-        System.out.println("====== 登录过程 ======");
+        System.out.println("====== 身份认证过程 ======");
         JSONObject jsonWrite = new JSONObject();
         //Inserting key-value pairs into the json object
         jsonWrite.put("name", username);
         System.out.println("STEP 1: " + jsonWrite.toJSONString());
         if (url.contains("https")) {
-            resp1 = HttpsPost.doPost(Common.proUrlPrefix + "user/login", jsonWrite.toJSONString());
+            resp1 = HttpsPost.doPost(Common.proUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString());
         } else {
-            resp1 = HttpPost.doPost(Common.devUrlPrefix + "user/login", jsonWrite.toJSONString());
+            resp1 = HttpPost.doPost(Common.devUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString());
         }
         System.out.println("RESP 1: " + resp1);
 
@@ -36,16 +38,21 @@ public class Login {
         jsonWrite.put("type", "user");
         System.out.println("STEP 2: " + jsonWrite.toJSONString());
         if (url.contains("https")) {
-            resp2 = HttpsPost.doPost(Common.proUrlPrefix + "user/login", jsonWrite.toJSONString());
+            resp2 = HttpsPost.doPost(Common.proUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString());
         } else {
-            resp2 = HttpPost.doPost(Common.devUrlPrefix + "user/login", jsonWrite.toJSONString());
+            resp2 = HttpPost.doPost(Common.devUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString());
         }
         System.out.println("RESP 2: " + resp2);
+        // 计算md5函数
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(s);
+        String md5sum = new BigInteger(1, md.digest()).toString(16);
+        System.out.println(md5sum);
         return resp2;
     }
 
     public static void main(String[] args) throws Exception{
         String username = "zhao";
-        Login(username, "./pairs/" + username + ".pem");
+        VerifyIdentity(username, "./pairs/" + username + ".pem");
     }
 }
