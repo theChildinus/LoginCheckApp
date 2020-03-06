@@ -1,5 +1,7 @@
-import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import utils.Common;
+import utils.HttpPost;
+import utils.HttpsPost;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -19,9 +21,9 @@ public class VerifyIdentity {
         jsonWrite.put("name", username);
         System.out.println("STEP 1: " + jsonWrite.toJSONString());
         if (url.contains("https")) {
-            resp1 = HttpsPost.doPost(Common.proUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString());
+            resp1 = HttpsPost.doPost(Common.proUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString(), "");
         } else {
-            resp1 = HttpPost.doPost(Common.devUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString());
+            resp1 = HttpPost.doPost(Common.devUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString(), "");
         }
         System.out.println("RESP 1: " + resp1);
 
@@ -38,16 +40,16 @@ public class VerifyIdentity {
         jsonWrite.put("type", "user");
         System.out.println("STEP 2: " + jsonWrite.toJSONString());
         if (url.contains("https")) {
-            resp2 = HttpsPost.doPost(Common.proUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString());
+            resp2 = HttpsPost.doPost(Common.proUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString(), "");
         } else {
-            resp2 = HttpPost.doPost(Common.devUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString());
+            resp2 = HttpPost.doPost(Common.devUrlPrefix + "user/verifyIdentity", jsonWrite.toJSONString(), "");
         }
         System.out.println("RESP 2: " + resp2);
         // 计算md5函数
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(s);
         String md5sum = new BigInteger(1, md.digest()).toString(16);
-        System.out.println(md5sum);
+        System.out.println("MD5 Value: " + md5sum);
         return resp2;
     }
 

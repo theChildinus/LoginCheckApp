@@ -1,3 +1,5 @@
+package utils;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -5,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpPost {
-    public static String doPost(String URL, String json) throws Exception{
+    public static String doPost(String URL, String json, String auth) throws Exception{
         OutputStreamWriter out = null;
         BufferedReader in = null;
         StringBuilder result = new StringBuilder();
@@ -22,6 +24,9 @@ public class HttpPost {
             conn.setReadTimeout(10000);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
+            if (!auth.isEmpty()) {
+                conn.setRequestProperty("Authorization", auth);
+            }
             //获取输出流
             out = new OutputStreamWriter(conn.getOutputStream());
             String jsonStr = json;

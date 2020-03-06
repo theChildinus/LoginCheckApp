@@ -1,14 +1,13 @@
+package utils;
+
 import javax.net.ssl.*;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.GeneralSecurityException;
-import java.security.KeyStore;
 
 public class HttpsPost {
 
-    public static String doPost(String URL, String json) throws Exception{
+    public static String doPost(String URL, String json, String auth) throws Exception{
         OutputStreamWriter out = null;
         BufferedReader in = null;
         StringBuilder result = new StringBuilder();
@@ -33,6 +32,9 @@ public class HttpsPost {
             conn.setReadTimeout(10000);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
+            if (!auth.isEmpty()) {
+                conn.setRequestProperty("Authorization", auth);
+            }
             //获取输出流
             out = new OutputStreamWriter(conn.getOutputStream());
             String jsonStr = json;

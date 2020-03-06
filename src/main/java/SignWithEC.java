@@ -1,10 +1,8 @@
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
+import utils.Common;
+import utils.ExeCmd;
 
-import java.io.DataInputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -76,11 +74,11 @@ public class SignWithEC {
     public static void main(String[] args) throws Exception {
         String certPath = "./pairs/zhao.crt";
         String privatePath = "./pairs/zhao.pem";
-        String content = "111111";
+        String content = "123456";
         PrivateKey privateKey = getPrivateKey(privatePath, Common.opensslPath);
         PublicKey publicKey = getPublicKeyFromCert(certPath);
         byte[] s = sign(privateKey, content);
-        System.out.println("签名："+ HexBin.encode(s));
+        System.out.println("签名："+ Base64.encode(s));
         boolean bool = verify(publicKey, s, content);
         System.out.println("验证："+ bool);
         System.out.println(getCertValidity(certPath));

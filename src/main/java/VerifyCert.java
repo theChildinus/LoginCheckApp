@@ -1,4 +1,7 @@
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import utils.Common;
+import utils.HttpPost;
+import utils.HttpsPost;
 import org.json.simple.JSONObject;
 import java.io.FileInputStream;
 
@@ -16,9 +19,9 @@ public class VerifyCert {
         jsonWrite.put("type", "user");
         System.out.println("CHECK: " + jsonWrite.toJSONString());
         if (url.contains("https")) {
-            resp = HttpsPost.doPost(Common.proUrlPrefix + "user/verifyCert", jsonWrite.toJSONString());
+            resp = HttpsPost.doPost(Common.proUrlPrefix + "user/verifyCert", jsonWrite.toJSONString(), "");
         } else {
-            resp = HttpPost.doPost(Common.devUrlPrefix + "user/verifyCert", jsonWrite.toJSONString());
+            resp = HttpPost.doPost(Common.devUrlPrefix + "user/verifyCert", jsonWrite.toJSONString(), "");
         }
         System.out.println("RESP: " + resp);
         return resp;
