@@ -68,7 +68,7 @@ public class HttpsPost {
         return result.toString();
     }
 
-    private static void trustAllHttpsCertificates() throws Exception {
+    public static void trustAllHttpsCertificates() throws Exception {
         javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
         javax.net.ssl.TrustManager tm = new miTM();
         trustAllCerts[0] = tm;
