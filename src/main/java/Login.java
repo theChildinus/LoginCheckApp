@@ -1,6 +1,5 @@
+import com.alibaba.fastjson.JSONObject;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import utils.Common;
 import utils.HttpPost;
 import utils.HttpsPost;
@@ -49,7 +48,7 @@ public class Login {
         String resp = Login("zhao", "技术部/培训部/经理", Base64.encode(s), "");
 
         System.out.println("====== JWT登录过程 第 n>1 次 ======");
-        JSONObject jsonRead = (JSONObject) new JSONParser().parse(resp);
+        JSONObject jsonRead = JSONObject.parseObject(resp);
         String token = (String)jsonRead.get("token");
         Login("zhao", "技术部/培训部/经理", "", token);
     }

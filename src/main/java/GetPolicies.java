@@ -1,7 +1,7 @@
+import com.alibaba.fastjson.JSONObject;
 import utils.Common;
 import utils.HttpPost;
 import utils.HttpsPost;
-import org.json.simple.JSONObject;
 
 public class GetPolicies {
 

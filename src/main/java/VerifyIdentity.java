@@ -1,9 +1,8 @@
+import com.alibaba.fastjson.JSONObject;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import utils.Common;
 import utils.HttpPost;
 import utils.HttpsPost;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -27,7 +26,7 @@ public class VerifyIdentity {
         }
         System.out.println("RESP 1: " + resp1);
 
-        JSONObject jsonRead = (JSONObject) new JSONParser().parse(resp1);
+        JSONObject jsonRead = JSONObject.parseObject(resp1);
         Long code = (Long)jsonRead.get("code");
         System.out.println(code);
 

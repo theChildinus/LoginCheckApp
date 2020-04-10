@@ -1,6 +1,5 @@
+import com.alibaba.fastjson.JSONObject;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import utils.Common;
 import utils.HttpPost;
 import utils.HttpsPost;
