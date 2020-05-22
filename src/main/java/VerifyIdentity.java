@@ -11,6 +11,7 @@ import java.security.PrivateKey;
 public class VerifyIdentity {
 
     public static String VerifyIdentity(String username, String privateKeyPath) throws Exception {
+        Common.init();
         String url = Common.proUrlPrefix;
         String resp1;
         String resp2;

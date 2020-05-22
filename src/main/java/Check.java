@@ -12,6 +12,7 @@ public class Check {
     // 每次身份认证后 md5sum 值均不一样
     public static String Check(String policyname, String sub, String obj, String act, String env,
                                String username, String md5sum) throws Exception {
+        Common.init();
         String url = Common.proUrlPrefix;
         String resp;
         JSONObject jsonWrite = new JSONObject();
@@ -31,6 +32,31 @@ public class Check {
             resp = HttpPost.doPost(Common.devUrlPrefix + "policy/check", jsonWrite.toJSONString(), "");
         }
         System.out.println("RESP: " + resp);
+        return resp;
+    }
+
+    public static String CheckABAC(String policyname, String sub, String role, String obj, String act, String env,
+                                   String username, String md5sum) throws Exception {
+        SubAttr sa = new SubAttr();
+        sa.setName(sub);
+        sa.setRole(role);
+
+        ObjAttr oa = new ObjAttr();
+        oa.setName(obj);
+        oa.setOwner(username);
+
+        ActAttr aa = new ActAttr();
+        aa.setName(act);
+
+        EnvAttr ea = new EnvAttr();
+        ea.setTime(env);
+
+        String sastr = JSON.toJSONString(sa);
+        String oastr = JSON.toJSONString(oa);
+        String aastr = JSON.toJSONString(aa);
+        String eastr = JSON.toJSONString(ea);
+
+        String resp = Check(policyname, sastr, oastr, aastr, eastr, username, md5sum);
         return resp;
     }
 
@@ -100,30 +126,10 @@ public class Check {
     }
 
     public static void main(String[] args) throws Exception{
-        String md5sum = "3e704ae00265b91f251822e06140b4d3";
-        Check("策略1","zhao", "物联网资源/态势图","read","","zhao", md5sum);
-
-        SubAttr sa = new SubAttr();
-        sa.setName("zhao");
-        sa.setRole("admin");
-
-        ObjAttr oa = new ObjAttr();
-        oa.setName("物联网资源/工具");
-        oa.setOwner("zhao");
-
-        ActAttr aa = new ActAttr();
-        aa.setName("read");
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        EnvAttr ea = new EnvAttr();
-        ea.setTime(df.format(new Date()));
-
-        String sastr = JSON.toJSONString(sa);
-        System.out.println("sastr: " + sastr);
-        String oastr = JSON.toJSONString(oa);
-        String aastr = JSON.toJSONString(aa);
-        String eastr = JSON.toJSONString(ea);
-
-        Check("策略2", sastr, oastr, aastr, eastr,"zhao", md5sum);
+        String md5sum = "ce76602bd9e77f3c85130454a7e95e52";
+        String username = "kong";
+        Check("策略1","zhao", "物联网资源/态势图","read","",username, md5sum);
+        CheckABAC("运控分系统访问控制策略集合", "zhao", "admin",
+                "data1", "read","2020-05-22", username, md5sum);
     }
 }

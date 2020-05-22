@@ -75,6 +75,7 @@ public class SignWithEC {
         String certPath = "./pairs/zhao.crt";
         String privatePath = "./pairs/zhao.pem";
         String content = "123456";
+        Common.init();
         PrivateKey privateKey = getPrivateKey(privatePath, Common.opensslPath);
         PublicKey publicKey = getPublicKeyFromCert(certPath);
         byte[] s = sign(privateKey, content);

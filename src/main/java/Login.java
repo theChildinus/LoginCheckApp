@@ -8,6 +8,7 @@ import java.security.PrivateKey;
 
 public class Login {
     public static String Login(String username, String role, String secret, String token) throws Exception {
+        Common.init();
         String url = Common.proUrlPrefix;
         String resp;
         if (token.isEmpty()) {
@@ -42,6 +43,7 @@ public class Login {
     public static void main(String[] args) throws Exception {
         System.out.println("====== JWT登录过程 第 1 次 ======");
         String privatePath = "./pairs/zhao.pem";
+        Common.init();
         PrivateKey privateKey = SignWithEC.getPrivateKey(privatePath, Common.opensslPath);
         String content = "123456";
         byte[] s = SignWithEC.sign(privateKey, content);

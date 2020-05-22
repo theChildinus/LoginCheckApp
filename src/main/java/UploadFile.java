@@ -8,6 +8,7 @@ import java.io.*;
 public class UploadFile {
 
     public static String uploadFile(String epcstr) throws Exception {
+        Common.init();
         String url = Common.proUrlPrefix;
         String resp;
         JSONObject jsonWrite = new JSONObject();
@@ -25,7 +26,8 @@ public class UploadFile {
 
     public static void main(String[] args) throws Exception {
         // 上传文件测试
-        FileInputStream fis = new FileInputStream("./pairs/tmp.epml");
+        //FileInputStream fis = new FileInputStream("./pairs/土壤检测流程.epml");
+        FileInputStream fis = new FileInputStream("./pairs/123.epml");
         String epc_context = Common.getFileContent(fis, "UTF-8");
         uploadFile(epc_context);
     }

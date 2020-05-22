@@ -6,6 +6,7 @@ import utils.HttpsPost;
 public class GetPolicies {
 
     public static String getPolicies(String policyname) throws Exception {
+        Common.init();
         String url = Common.proUrlPrefix;
         String resp;
         JSONObject jsonWrite = new JSONObject();

@@ -1,26 +1,49 @@
 package utils;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.Iterator;
+import java.util.Properties;
 
 public class Common {
     // 开发环境url
-    public static final String devUrlPrefix = "http://localhost:9090/";
+    public static String devUrlPrefix = "";
     // 正式环境url
-    public static final String proUrlPrefix = "https://10.108.165.181:4433/api/";
-    public static final String opensslPath = "C:\\Program Files\\Git\\usr\\bin\\openssl";
+    public static String proUrlPrefix = "";
+    public static String opensslPath = "";
 
-    public static String getFileContent(FileInputStream fis, String encoding) throws IOException {
-        try(BufferedReader br = new BufferedReader( new InputStreamReader(fis, encoding))) {
-            StringBuilder sb = new StringBuilder();
+    public static void init() {
+        Properties prop = new Properties();
+        InputStream in = null;
+        try {
+            //读取属性文件config.properties
+            in = new BufferedInputStream(new FileInputStream("resources/config.properties"));
+            prop.load(new InputStreamReader(in, "utf-8"));
+            Iterator<String> it = prop.stringPropertyNames().iterator();
+            while (it.hasNext()) {
+                String key = it.next();
+                System.out.println(key + ":  " + prop.getProperty(key));
+            }
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        devUrlPrefix = prop.getProperty("devUrlPrefix");
+        proUrlPrefix = prop.getProperty("proUrlPrefix");
+        opensslPath = prop.getProperty("opensslPath");
+    }
+    public static String getFileContent(FileInputStream fis, String encoding) {
+        StringBuilder sb = new StringBuilder();
+        try{
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis, encoding));
             String line;
-            while(( line = br.readLine()) != null ) {
+            while((line = br.readLine()) != null) {
                 sb.append(line);
                 sb.append('\n');
             }
             return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return sb.toString();
     }
 }

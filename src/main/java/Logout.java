@@ -8,6 +8,7 @@ import java.security.PrivateKey;
 
 public class Logout {
     public static String Logout(String username, String token) throws Exception {
+        Common.init();
         String url = Common.proUrlPrefix;
         String resp;
         JSONObject jsonWrite = new JSONObject();

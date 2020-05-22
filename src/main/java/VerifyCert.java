@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 
 public class VerifyCert {
     public static String VerifyCert(String username, String certPath) throws Exception {
+        Common.init();
         String url = Common.proUrlPrefix;
         String resp;
         JSONObject jsonWrite = new JSONObject();
